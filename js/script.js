@@ -1,6 +1,7 @@
 var tileArray;
 const numTiles = document.body.getElementsByClassName("tile").length;
-const tileShiftAmt = 105; // Unit is pixels
+const tileHorizontalShiftAmt = 105; // Unit in pixels
+const tileVerticalShiftAmt = 107; // Unit in pixels
 
 setupGame();
 
@@ -37,6 +38,7 @@ function setupEmptyTile(tile) {
 function moveTile(tile) {
   console.log(tile.innerText);
   if (moveRightAllowed(tile)) moveRight(tile);
+  if (moveDownAllowed(tile)) moveDown(tile);
 }
 
 function moveRightAllowed(tile) {
@@ -61,11 +63,49 @@ function moveRight(tile) {
 
   //  Move tile to the right.
   tile.style.transition = "transform 1.0s ease-in-out";
-  tile.style.transform = "translateX(" + `${tileShiftAmt}` + "px)";
+  tile.style.transform = "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
 
   //  Move empty tile to the left.
   emptyTile.style.transition = "transform 1.0s ease-in-out";
-  emptyTile.style.transform = "translateX(-" + `${tileShiftAmt}` + "px)";
+  emptyTile.style.transform =
+    "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
+
+  var temp = emptyTile;
+  tileArray[emptyTileIndex] = tile;
+  tileArray[tileIndex] = temp;
+
+  console.log("Former empty position new element");
+  console.log(tileArray[emptyTileIndex]);
+  console.log("Former tile positoin new element");
+  console.log(tileArray[tileIndex]);
+}
+
+function moveDownAllowed(tile) {
+  var tileIndex = tileArray.indexOf(tile);
+  var indexOfTileUnderneath = tileIndex + 3;
+  if (
+    tileIndex < 6 &&
+    tileArray[indexOfTileUnderneath].classList.contains("empty")
+  ) {
+    console.log("Ok to move to Down");
+    return true;
+  }
+  return false;
+}
+
+function moveDown(tile) {
+  var tileIndex = tileArray.indexOf(tile);
+  var emptyTileIndex = tileIndex + 3;
+  var emptyTile = tileArray[emptyTileIndex];
+
+  //  Move tile to Down.
+  tile.style.transition = "transform 1.0s ease-in-out";
+  tile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
+
+  //  Move empty tile to the left.
+  emptyTile.style.transition = "transform 1.0s ease-in-out";
+  emptyTile.style.transform =
+    "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
