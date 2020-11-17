@@ -24,6 +24,7 @@
   font-size: 4em;
   background-color: red;
   border: black solid 1px;
+  cursor: pointer;
 }
 
 .empty {

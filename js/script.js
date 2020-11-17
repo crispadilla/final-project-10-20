@@ -1,5 +1,5 @@
 var tileArray;
-const numTiles = 9;
+const numTiles = document.body.getElementsByClassName("tile").length;
 
 setupGame();
 
@@ -13,9 +13,26 @@ function setupGame() {
   while (index < numTiles) {
     randNum = Math.floor(Math.random() * numTiles);
     if (arrayValues[randNum]) {
-      tileArray[index].innerText = randNum;
+      randNum == 0
+        ? setupEmptyTile(tileArray[index])
+        : (tileArray[index].innerText = randNum);
       arrayValues[randNum] = false;
       index += 1;
     }
   }
+  setAttributes();
+}
+
+function setAttributes() {
+  tileArray.forEach((element) =>
+    element.setAttribute("onclick", "moveTile(this)")
+  );
+}
+
+function setupEmptyTile(tile) {
+  tile.classList.add("empty");
+}
+
+function moveTile(tile) {
+  console.log(tile.innerText);
 }
