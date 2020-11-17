@@ -37,9 +37,17 @@ function setupEmptyTile(tile) {
 
 function moveTile(tile) {
   console.log(tile.innerText);
-  if (moveRightAllowed(tile)) moveRight(tile);
-  if (moveDownAllowed(tile)) moveDown(tile);
-  if (moveLeftAllowed(tile)) moveLeft(tile);
+  console.log(tileArray.indexOf(tile));
+
+  if (moveRightAllowed(tile)) {
+    moveRight(tile);
+  } else if (moveDownAllowed(tile)) {
+    moveDown(tile);
+  } else if (moveLeftAllowed(tile)) {
+    moveLeft(tile);
+  } else if (moveUpAllowed(tile)) {
+    moveUp(tile);
+  }
 }
 
 function moveRightAllowed(tile) {
@@ -74,11 +82,6 @@ function moveRight(tile) {
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
-
-  console.log("Former empty position new element");
-  console.log(tileArray[emptyTileIndex]);
-  console.log("Former tile positoin new element");
-  console.log(tileArray[tileIndex]);
 }
 
 function moveDownAllowed(tile) {
@@ -99,11 +102,11 @@ function moveDown(tile) {
   var emptyTileIndex = tileIndex + 3;
   var emptyTile = tileArray[emptyTileIndex];
 
-  //  Move tile to Down.
+  //  Move tile Down.
   tile.style.transition = "transform 1.0s ease-in-out";
   tile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
 
-  //  Move empty tile to the left.
+  //  Move empty tile up.
   emptyTile.style.transition = "transform 1.0s ease-in-out";
   emptyTile.style.transform =
     "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
@@ -111,11 +114,6 @@ function moveDown(tile) {
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
-
-  console.log("Former empty position new element");
-  console.log(tileArray[emptyTileIndex]);
-  console.log("Former tile positoin new element");
-  console.log(tileArray[tileIndex]);
 }
 
 function moveLeftAllowed(tile) {
@@ -150,9 +148,35 @@ function moveLeft(tile) {
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
+}
 
-  console.log("Former empty position new element");
-  console.log(tileArray[emptyTileIndex]);
-  console.log("Former tile positoin new element");
-  console.log(tileArray[tileIndex]);
+function moveUpAllowed(tile) {
+  var tileIndex = tileArray.indexOf(tile);
+  var indexOfTileAbove = tileIndex - 3;
+  if (
+    tileIndex > 2 &&
+    tileArray[indexOfTileAbove].classList.contains("empty")
+  ) {
+    console.log("Ok to move to Up");
+    return true;
+  }
+  return false;
+}
+
+function moveUp(tile) {
+  var tileIndex = tileArray.indexOf(tile);
+  var emptyTileIndex = tileIndex - 3;
+  var emptyTile = tileArray[emptyTileIndex];
+
+  //  Move tile Up.
+  tile.style.transition = "transform 1.0s ease-in-out";
+  tile.style.transform = "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
+
+  //  Move empty tile down.
+  emptyTile.style.transition = "transform 1.0s ease-in-out";
+  emptyTile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
+
+  var temp = emptyTile;
+  tileArray[emptyTileIndex] = tile;
+  tileArray[tileIndex] = temp;
 }
