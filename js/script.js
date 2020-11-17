@@ -39,6 +39,7 @@ function moveTile(tile) {
   console.log(tile.innerText);
   if (moveRightAllowed(tile)) moveRight(tile);
   if (moveDownAllowed(tile)) moveDown(tile);
+  if (moveLeftAllowed(tile)) moveLeft(tile);
 }
 
 function moveRightAllowed(tile) {
@@ -106,6 +107,45 @@ function moveDown(tile) {
   emptyTile.style.transition = "transform 1.0s ease-in-out";
   emptyTile.style.transform =
     "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
+
+  var temp = emptyTile;
+  tileArray[emptyTileIndex] = tile;
+  tileArray[tileIndex] = temp;
+
+  console.log("Former empty position new element");
+  console.log(tileArray[emptyTileIndex]);
+  console.log("Former tile positoin new element");
+  console.log(tileArray[tileIndex]);
+}
+
+function moveLeftAllowed(tile) {
+  var tileIndex = tileArray.indexOf(tile);
+  var indexOfTileToTheLeft = tileIndex - 1;
+  if (
+    tileIndex != 0 &&
+    tileIndex != 3 &&
+    tileIndex != 6 &&
+    tileArray[indexOfTileToTheLeft].classList.contains("empty")
+  ) {
+    console.log("Ok to move to the Left");
+    return true;
+  }
+  return false;
+}
+
+function moveLeft(tile) {
+  var tileIndex = tileArray.indexOf(tile);
+  var emptyTileIndex = tileIndex - 1;
+  var emptyTile = tileArray[emptyTileIndex];
+
+  //  Move tile to the left.
+  tile.style.transition = "transform 1.0s ease-in-out";
+  tile.style.transform = "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
+
+  //  Move empty tile to the left.
+  emptyTile.style.transition = "transform 1.0s ease-in-out";
+  emptyTile.style.transform =
+    "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
