@@ -1,0 +1,30 @@
+HTML Document
+
+Head
+  Setup Document
+  style
+    /* Style game */
+  /style  
+/Head
+
+Body
+  Container Div
+    Div for tile 1
+    Div for tile 2
+    Div for tile 3
+    Div for tile 4
+    Div for tile 5
+    Div for tile 6
+    Div for tile 7
+    Div for tile 8
+    Div for tile 9
+    Div for empty tile
+  /container
+
+  Script
+    checkIfTileiCanMove()  // see if clicked tile can move
+    moveTile()             // move tile
+    checkGameStatus()      // check to see if player has won.
+/Body
+
+/Html
