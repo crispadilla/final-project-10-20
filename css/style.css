@@ -3,19 +3,23 @@
   padding: 0;
 }
 
+body {
+  background-color: black;
+}
+
 .container {
   position: relative;
   width: 312px;
   top: 312px;
   left: 50%;
   transform: translate(-50%);
-  background-color: blue;
 }
 
 .tileGrid {
   display: grid;
   grid-gap: 5px;
   grid-template-columns: 100px 100px 100px;
+  background-color: blue;
 }
 
 .tile {
@@ -26,6 +30,7 @@
   line-height: 100px;
   font-family: "Bungee Outline", cursive;
   font-size: 6em;
+  font-weight: 900;
   background-color: red;
   border: black solid 1px;
   border-radius: 20%;
@@ -33,5 +38,5 @@
 }
 
 .empty {
-  background-color: yellow;
+  background-color: black;
 }
