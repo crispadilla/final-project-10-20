@@ -4,10 +4,12 @@
 }
 
 .container {
-  position: absolute;
-  top: 30%;
+  position: relative;
+  width: 312px;
+  top: 100px;
   left: 50%;
   transform: translate(-50%);
+  background-color: blue;
 }
 
 .tileGrid {
@@ -17,6 +19,7 @@
 }
 
 .tile {
+  position: absolute;
   width: 100px;
   height: 100px;
   text-align: center;
@@ -24,21 +27,10 @@
   font-size: 4em;
   background-color: red;
   border: black solid 1px;
+  border-radius: 20%;
   cursor: pointer;
 }
 
 .empty {
-  background-color: gray;
-}
-
-.testSlide {
-  /* animation: slide 3s linear; */
-  transform: translateY(107px);
-  transition: transform 2s linear;
-}
-
-@keyframes slide {
-  100% {
-    transform: translateY(106px);
-  }
+  background-color: yellow;
 }

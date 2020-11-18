@@ -1,7 +1,10 @@
 var tileArray;
+var elementCoordinatesArray;
 const numTiles = document.body.getElementsByClassName("tile").length;
-const tileHorizontalShiftAmt = 105; // Unit in pixels
-const tileVerticalShiftAmt = 107; // Unit in pixels
+const containerWidth = 300; // Unit in pixels
+const containerHeight = 300; // Unit in pixels
+const tileHorizontalShiftAmt = containerWidth / 3; // Unit in pixels
+const tileVerticalShiftAmt = containerHeight / 3; // Unit in pixels
 
 setupGame();
 
@@ -9,6 +12,10 @@ function setupGame() {
   tileArray = Array.from(document.body.getElementsByClassName("tile"));
   var arrayValues = Array(numTiles);
   arrayValues.fill(true, 0);
+
+  setupCoordinates();
+  positionTiles();
+  setTileAttributes();
 
   var index = 0;
   var randNum;
@@ -22,7 +29,33 @@ function setupGame() {
       index += 1;
     }
   }
-  setTileAttributes();
+}
+
+function setupCoordinates() {
+  elementCoordinatesArray = Array(numTiles);
+  x_coordinate = 0;
+  y_coordinate = 0;
+
+  for (var i = 0; i < numTiles; i++) {
+    if (i != 0 && i % 3 == 0) {
+      y_coordinate += tileVerticalShiftAmt;
+      x_coordinate = 0;
+    }
+    elementCoordinatesArray[i] = [x_coordinate, y_coordinate];
+    x_coordinate += tileHorizontalShiftAmt;
+  }
+}
+
+function positionTiles() {
+  var x_coordinate;
+  var y_coordinate;
+  for (var i = 0; i < numTiles; i++) {
+    x_coordinate = elementCoordinatesArray[i][0];
+    y_coordinate = elementCoordinatesArray[i][1];
+
+    tileArray[i].style.left = `${x_coordinate}` + "px";
+    tileArray[i].style.top = `${y_coordinate}` + "px";
+  }
 }
 
 function setTileAttributes() {
@@ -36,16 +69,20 @@ function setupEmptyTile(tile) {
 }
 
 function moveTile(tile) {
-  console.log(tile.innerText);
-  console.log(tileArray.indexOf(tile));
+  console.log("tile number: " + tile.innerText);
+  console.log("tile index: " + tileArray.indexOf(tile));
 
   if (moveRightAllowed(tile)) {
+    console.log("moveRight Called");
     moveRight(tile);
   } else if (moveDownAllowed(tile)) {
+    console.log("moveDown Called");
     moveDown(tile);
   } else if (moveLeftAllowed(tile)) {
+    console.log("moveLeft Called");
     moveLeft(tile);
   } else if (moveUpAllowed(tile)) {
+    console.log("moveUp Called");
     moveUp(tile);
   }
 }
@@ -70,19 +107,53 @@ function moveRight(tile) {
   var emptyTileIndex = tileIndex + 1;
   var emptyTile = tileArray[emptyTileIndex];
 
-  //  Move tile to the right.
-  tile.style.transition = "transform 1.0s ease-in-out";
-  tile.style.transform = "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
+  x_coordinate_tile = elementCoordinatesArray[tileIndex][0];
+  y_coordinate_tile = elementCoordinatesArray[tileIndex][1];
 
-  //  Move empty tile to the left.
-  emptyTile.style.transition = "transform 1.0s ease-in-out";
-  emptyTile.style.transform =
-    "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
+  x_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][0];
+  y_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][1];
+
+  // Change tile coordinates to emptyTile coordinates
+  tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
+  tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
+
+  // Change emptyTile to tile coordinates
+  tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
+  tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
 }
+
+// function moveRight(tile) {
+//   var tileIndex = tileArray.indexOf(tile);
+//   var emptyTileIndex = tileIndex + 1;
+//   var emptyTile = tileArray[emptyTileIndex];
+
+//   //  Move tile to the right.
+//   tile.style.transition = "transform 1.0s ease-in-out";
+//   tile.style.transform = "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
+
+//   console.log("tile shift amount: " + tileHorizontalShiftAmt);
+//   //  Move empty tile to the left.
+//   emptyTile.style.transition = "transform 1.0s ease-in-out";
+//   emptyTile.style.transform =
+//     "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
+//   console.log("emptyTile shift amount: " + "-" + `${tileHorizontalShiftAmt}`);
+
+//   var temp = emptyTile;
+//   tileArray[emptyTileIndex] = tile;
+//   tileArray[tileIndex] = temp;
+
+//   // Debugging
+//   console.log("tile number: " + tile.innerText);
+//   console.log("new index of tile: " + tileArray.indexOf(tile));
+//   if (tileArray[tileIndex].classList.contains("empty")) {
+//     console.log("new index of empty tile: " + tileIndex);
+//     console.log(tileArray[tileIndex]);
+//   }
+// }
 
 function moveDownAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
@@ -102,19 +173,51 @@ function moveDown(tile) {
   var emptyTileIndex = tileIndex + 3;
   var emptyTile = tileArray[emptyTileIndex];
 
-  //  Move tile Down.
-  tile.style.transition = "transform 1.0s ease-in-out";
-  tile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
+  x_coordinate_tile = elementCoordinatesArray[tileIndex][0];
+  y_coordinate_tile = elementCoordinatesArray[tileIndex][1];
 
-  //  Move empty tile up.
-  emptyTile.style.transition = "transform 1.0s ease-in-out";
-  emptyTile.style.transform =
-    "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
+  x_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][0];
+  y_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][1];
+
+  // Change tile coordinates to emptyTile coordinates
+  tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
+  tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
+
+  // Change emptyTile to tile coordinates
+  tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
+  tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
 }
+
+// function moveDown(tile) {
+//   var tileIndex = tileArray.indexOf(tile);
+//   var emptyTileIndex = tileIndex + 3;
+//   var emptyTile = tileArray[emptyTileIndex];
+
+//   //  Move tile Down.
+//   tile.style.transition = "transform 1.0s ease-in-out";
+//   tile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
+
+//   //  Move empty tile up.
+//   emptyTile.style.transition = "transform 1.0s ease-in-out";
+//   emptyTile.style.transform =
+//     "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
+
+//   var temp = emptyTile;
+//   tileArray[emptyTileIndex] = tile;
+//   tileArray[tileIndex] = temp;
+
+//   // Debugging
+//   console.log("tile number: " + tile.innerText);
+//   console.log("new index of tile: " + tileArray.indexOf(tile));
+//   if (tileArray[tileIndex].classList.contains("empty")) {
+//     console.log("new index of empty tile: " + tileIndex);
+//     console.log(tileArray[tileIndex]);
+//   }
+// }
 
 function moveLeftAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
@@ -136,19 +239,53 @@ function moveLeft(tile) {
   var emptyTileIndex = tileIndex - 1;
   var emptyTile = tileArray[emptyTileIndex];
 
-  //  Move tile to the left.
-  tile.style.transition = "transform 1.0s ease-in-out";
-  tile.style.transform = "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
+  x_coordinate_tile = elementCoordinatesArray[tileIndex][0];
+  y_coordinate_tile = elementCoordinatesArray[tileIndex][1];
 
-  //  Move empty tile to the left.
-  emptyTile.style.transition = "transform 1.0s ease-in-out";
-  emptyTile.style.transform =
-    "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
+  x_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][0];
+  y_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][1];
+
+  // Change tile coordinates to emptyTile coordinates
+  tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
+  tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
+
+  // Change emptyTile to tile coordinates
+  tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
+  tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
 }
+
+// function moveLeft(tile) {
+//   var tileIndex = tileArray.indexOf(tile);
+//   var emptyTileIndex = tileIndex - 1;
+//   var emptyTile = tileArray[emptyTileIndex];
+
+//   //  Move tile to the left.
+//   tile.style.transition = "transform 1.0s ease-in-out";
+//   tile.style.transform = "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
+//   console.log("shift amount: " + tileHorizontalShiftAmt);
+
+//   //  Move empty tile to the left.
+//   emptyTile.style.transition = "transform 1.0s ease-in-out";
+//   emptyTile.style.transform =
+//     "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
+//   console.log("shift amount: " + tileHorizontalShiftAmt);
+
+//   var temp = emptyTile;
+//   tileArray[emptyTileIndex] = tile;
+//   tileArray[tileIndex] = temp;
+
+//   // Debugging
+//   console.log("tile number: " + tile.innerText);
+//   console.log("new index of tile: " + tileArray.indexOf(tile));
+//   if (tileArray[tileIndex].classList.contains("empty")) {
+//     console.log("new index of empty tile: " + tileIndex);
+//     console.log(tileArray[tileIndex]);
+//   }
+// }
 
 function moveUpAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
@@ -168,15 +305,47 @@ function moveUp(tile) {
   var emptyTileIndex = tileIndex - 3;
   var emptyTile = tileArray[emptyTileIndex];
 
-  //  Move tile Up.
-  tile.style.transition = "transform 1.0s ease-in-out";
-  tile.style.transform = "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
+  x_coordinate_tile = elementCoordinatesArray[tileIndex][0];
+  y_coordinate_tile = elementCoordinatesArray[tileIndex][1];
 
-  //  Move empty tile down.
-  emptyTile.style.transition = "transform 1.0s ease-in-out";
-  emptyTile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
+  x_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][0];
+  y_coordinate_emptyTile = elementCoordinatesArray[emptyTileIndex][1];
+
+  // Change tile coordinates to emptyTile coordinates
+  tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
+  tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
+
+  // Change emptyTile to tile coordinates
+  tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
+  tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
 }
+
+// function moveUp(tile) {
+//   var tileIndex = tileArray.indexOf(tile);
+//   var emptyTileIndex = tileIndex - 3;
+//   var emptyTile = tileArray[emptyTileIndex];
+
+//   //  Move tile Up.
+//   tile.style.transition = "transform 1.0s ease-in-out";
+//   tile.style.transform = "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
+
+//   //  Move empty tile down.
+//   emptyTile.style.transition = "transform 1.0s ease-in-out";
+//   emptyTile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
+
+//   var temp = emptyTile;
+//   tileArray[emptyTileIndex] = tile;
+//   tileArray[tileIndex] = temp;
+
+//   // Debugging
+//   console.log("tile number: " + tile.innerText);
+//   console.log("new index of tile: " + tileArray.indexOf(tile));
+//   if (tileArray[tileIndex].classList.contains("empty")) {
+//     console.log("new index of empty tile: " + tileIndex);
+//     console.log(tileArray[tileIndex]);
+//   }
+// }
