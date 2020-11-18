@@ -39,4 +39,5 @@ body {
 
 .empty {
   background-color: black;
+  opacity: 0;
 }

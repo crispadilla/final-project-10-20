@@ -125,6 +125,9 @@ function moveRight(tile) {
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
+  // Animate the shift
+  tileArray[tileIndex].style.transition = "left 1.0s ease-in-out";
+
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
@@ -190,6 +193,9 @@ function moveDown(tile) {
   // Change emptyTile to tile coordinates
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
+
+  // Animate the shift
+  tileArray[tileIndex].style.transition = "top 1.0s ease-in-out";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
@@ -257,6 +263,9 @@ function moveLeft(tile) {
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
+  // Animate the shift
+  tileArray[tileIndex].style.transition = "left 1.0s ease-in-out";
+
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
@@ -322,6 +331,9 @@ function moveUp(tile) {
   // Change emptyTile to tile coordinates
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
+
+  // Animate the shift
+  tileArray[tileIndex].style.transition = "top 1.0s ease-in-out";
 
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
