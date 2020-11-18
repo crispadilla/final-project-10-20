@@ -1,8 +1,8 @@
 var tileArray;
 var elementCoordinatesArray;
 const numTiles = document.body.getElementsByClassName("tile").length;
-const containerWidth = 300; // Unit in pixels
-const containerHeight = 300; // Unit in pixels
+const containerWidth = 320; // Unit in pixels
+const containerHeight = 320; // Unit in pixels
 const tileHorizontalShiftAmt = containerWidth / 3; // Unit in pixels
 const tileVerticalShiftAmt = containerHeight / 3; // Unit in pixels
 
