@@ -42,15 +42,21 @@ setupGame();
  * empty tile.
  */
 function setupGame() {
+  // Fill tileArray with all divs containing 'tile' class
   tileArray = Array.from(document.body.getElementsByClassName("tile"));
+
+  // Map the arrow keys to the moveTilesUsingArrowKeys functions
   document.onkeydown = moveTilesUsingArrowKeys;
 
+  // Set up the tiles
   setupCoordinates();
   positionTiles();
   setTileAttributes();
   assignTileNumbersRandomly();
 
-  /* The function below (testWinMessage()) is used to test the game  */
+  /* The function below (testWinMessage()) is used to test the game
+   * win condition by setting up a game state almost
+   * complete.*/
   // testWinMessage();
 }
 
