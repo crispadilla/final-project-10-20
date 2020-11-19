@@ -1,23 +1,57 @@
+/*****************************************************************
+ ***************    Global Variables/Constants    ****************
+ *****************************************************************/
+// Array used to hold tile divs.
 var tileArray;
-var elementCoordinatesArray;
-const numTiles = document.body.getElementsByClassName("tile").length;
-const containerWidth = 320; // Unit in pixels
-const containerHeight = 320; // Unit in pixels
-const tileHorizontalShiftAmt = containerWidth / 3; // Unit in pixels
-const tileVerticalShiftAmt = containerHeight / 3; // Unit in pixels
 
+// Array used to hold the coordinates of the tile divs.
+var elementCoordinatesArray;
+
+// Variable used to hold the number of div tiles.
+const numTiles = document.body.getElementsByClassName("tile").length;
+
+// Variable used to hold the width of the container div.
+const containerWidth = 320; // Units are in pixels
+
+// Variable used to hold the height of the container div.
+const containerHeight = 320; // Units are in pixels
+
+// Variable used to determine the lateral (horizontal) tile shift.
+const tileHorizontalShiftAmt = containerWidth / 3; // Units are in pixels
+
+// Varuable used to determine the vertical tile shift.
+const tileVerticalShiftAmt = containerHeight / 3; // Units are in pixels
+
+/********************************************************************
+ **********************    Start the Game    ************************
+ ********************************************************************/
 setupGame();
 
+/* The setupGame function is used to control the various stages of
+ * setting up the game. First, it calls a function to set up the
+ * coordinates for each div tile. Then it calls another function to
+ * position the tile according to the assigned coordinates. It then
+ * calls another function to set the appropriate attributes to each
+ * tile. Finally, a number is assigned to the tiles - except for the
+ * empty tile.
+ */
 function setupGame() {
   tileArray = Array.from(document.body.getElementsByClassName("tile"));
 
   setupCoordinates();
   positionTiles();
   setTileAttributes();
-  assignTileNumbers();
+  assignTileNumbersRandomly();
+
+  /* The function below (testWinMessage()) is used to test the game  */
   // testWinMessage();
 }
 
+/* The setupCoordinates function populates the elementCoordinateArray
+ * so that the tile divs can be properly positions. The function uses
+ * a for loop and both the tileHorizontalShiftAmt and tileVerticalShiftAmt
+ * variables to calculate the correct xy-coordinate pairs for each tile.
+ */
 function setupCoordinates() {
   elementCoordinatesArray = Array(numTiles);
   x_coordinate = 0;
@@ -33,7 +67,12 @@ function setupCoordinates() {
   }
 }
 
-function assignTileNumbers() {
+/* The assignTileNumbersRandomly function randomly assigns a value, numeric or class,
+ * to all tiles. The numbers assign are between 1 and (numTiles - 1).
+ * Also, one tile, the one with the index of 0, will be assigned assigned
+ * as the empty tile.
+ */
+function assignTileNumbersRandomly() {
   var arrayValues = Array(numTiles);
   arrayValues.fill(true, 0);
 
@@ -51,6 +90,10 @@ function assignTileNumbers() {
   }
 }
 
+/* The positionTiles function uses the coordinates stored in the
+ * elementCoordinatesArray array to position each tile according
+ * to it's xy-coordinate values.
+ */
 function positionTiles() {
   var x_coordinate;
   var y_coordinate;
@@ -63,37 +106,49 @@ function positionTiles() {
   }
 }
 
+/* The setTileAttributes assigns the necessary attributes
+ * to each tile in the tileArray. So far I've only use
+ * it to set the onclick attributes.
+ */
 function setTileAttributes() {
   tileArray.forEach((element) =>
     element.setAttribute("onclick", "moveTile(this)")
   );
 }
 
+/* The setupEmptyTile function is used to set any extra
+ * propetries/attributes required for the empty tile.
+ */
 function setupEmptyTile(tile) {
   tile.classList.add("empty");
 }
 
+/* The moveTile function is used to move the tiles around
+ * the board as the rules allow.
+ */
 function moveTile(tile) {
-  console.log("tile number: " + tile.innerText);
-  console.log("tile index: " + tileArray.indexOf(tile));
-
   if (moveRightAllowed(tile)) {
-    console.log("moveRight Called");
     moveRight(tile);
   } else if (moveDownAllowed(tile)) {
-    console.log("moveDown Called");
     moveDown(tile);
   } else if (moveLeftAllowed(tile)) {
-    console.log("moveLeft Called");
     moveLeft(tile);
   } else if (moveUpAllowed(tile)) {
-    console.log("moveUp Called");
     moveUp(tile);
   }
-  if (winStatus()) displayWinMessage();
-  console.log(winStatus());
+
+  // Check if player has won.
+  if (winStatus()) {
+    displayWinMessage();
+  }
 }
 
+/* The moveRightAllowed function checks if it's ok for a tile
+ * to move to the right. If so, it returns true. It returns false
+ * otherwise. The funciton utilized the calling tile's position in
+ * the tileArray and if the tile is adjacent to the empty tile in
+ * order to determine if it's ok for the tile to move right.
+ */
 function moveRightAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileToTheRight = tileIndex + 1;
@@ -109,6 +164,13 @@ function moveRightAllowed(tile) {
   return false;
 }
 
+/* The moveRight function moves(shifts) the tile to the right
+ * by swaping the xy-coordinates of the calling tile and the
+ * tile to the right (one index higher). it uses an animation
+ * effect to make the switch more interesting. Finally, the
+ * tile and the tile to the right are swaped positions within
+ * the array.
+ */
 function moveRight(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var emptyTileIndex = tileIndex + 1;
@@ -136,35 +198,12 @@ function moveRight(tile) {
   tileArray[tileIndex] = temp;
 }
 
-// function moveRight(tile) {
-//   var tileIndex = tileArray.indexOf(tile);
-//   var emptyTileIndex = tileIndex + 1;
-//   var emptyTile = tileArray[emptyTileIndex];
-
-//   //  Move tile to the right.
-//   tile.style.transition = "transform 1.0s ease-in-out";
-//   tile.style.transform = "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
-
-//   console.log("tile shift amount: " + tileHorizontalShiftAmt);
-//   //  Move empty tile to the left.
-//   emptyTile.style.transition = "transform 1.0s ease-in-out";
-//   emptyTile.style.transform =
-//     "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
-//   console.log("emptyTile shift amount: " + "-" + `${tileHorizontalShiftAmt}`);
-
-//   var temp = emptyTile;
-//   tileArray[emptyTileIndex] = tile;
-//   tileArray[tileIndex] = temp;
-
-//   // Debugging
-//   console.log("tile number: " + tile.innerText);
-//   console.log("new index of tile: " + tileArray.indexOf(tile));
-//   if (tileArray[tileIndex].classList.contains("empty")) {
-//     console.log("new index of empty tile: " + tileIndex);
-//     console.log(tileArray[tileIndex]);
-//   }
-// }
-
+/* The moveDownAllowed function checks if it's ok for a tile
+ * to move down. If so, it returns true. It returns false
+ * otherwise. The funciton utilized the calling tile's position in
+ * the tileArray and if the tile is adjacent to the empty tile in
+ * order to determine if it's ok for the tile to move down.
+ */
 function moveDownAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileUnderneath = tileIndex + 3;
@@ -178,6 +217,13 @@ function moveDownAllowed(tile) {
   return false;
 }
 
+/* The moveDown function moves(shifts) the tile down
+ * by swaping the xy-coordinates of the calling tile and the
+ * tile below (three indices higher). it uses an animation
+ * effect to make the switch more interesting. Finally, the
+ * tile and the tile below are swaped positions within
+ * the array.
+ */
 function moveDown(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var emptyTileIndex = tileIndex + 3;
@@ -193,7 +239,7 @@ function moveDown(tile) {
   tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
   tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
 
-  // Change emptyTile to tile coordinates
+  // Change emptyTile coordinates to tile coordinates
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
@@ -205,33 +251,12 @@ function moveDown(tile) {
   tileArray[tileIndex] = temp;
 }
 
-// function moveDown(tile) {
-//   var tileIndex = tileArray.indexOf(tile);
-//   var emptyTileIndex = tileIndex + 3;
-//   var emptyTile = tileArray[emptyTileIndex];
-
-//   //  Move tile Down.
-//   tile.style.transition = "transform 1.0s ease-in-out";
-//   tile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
-
-//   //  Move empty tile up.
-//   emptyTile.style.transition = "transform 1.0s ease-in-out";
-//   emptyTile.style.transform =
-//     "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
-
-//   var temp = emptyTile;
-//   tileArray[emptyTileIndex] = tile;
-//   tileArray[tileIndex] = temp;
-
-//   // Debugging
-//   console.log("tile number: " + tile.innerText);
-//   console.log("new index of tile: " + tileArray.indexOf(tile));
-//   if (tileArray[tileIndex].classList.contains("empty")) {
-//     console.log("new index of empty tile: " + tileIndex);
-//     console.log(tileArray[tileIndex]);
-//   }
-// }
-
+/* The moveLeftAllowed function checks if it's ok for a tile
+ * to move to the left. If so, it returns true. It returns false
+ * otherwise. The funciton utilized the calling tile's position in
+ * the tileArray and if the tile is adjacent to the empty tile in
+ * order to determine if it's ok for the tile to move left.
+ */
 function moveLeftAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileToTheLeft = tileIndex - 1;
@@ -247,6 +272,13 @@ function moveLeftAllowed(tile) {
   return false;
 }
 
+/* The moveLeft function moves(shifts) the tile to the left
+ * by swaping the xy-coordinates of the calling tile and the
+ * tile to the left (one index lower). It uses an animation
+ * effect to make the switch more interesting. Finally, the
+ * tile and the tile to the left are swaped positions within
+ * the array.
+ */
 function moveLeft(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var emptyTileIndex = tileIndex - 1;
@@ -262,7 +294,7 @@ function moveLeft(tile) {
   tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
   tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
 
-  // Change emptyTile to tile coordinates
+  // Change emptyTile coordinates to tile coordinates
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
@@ -274,35 +306,12 @@ function moveLeft(tile) {
   tileArray[tileIndex] = temp;
 }
 
-// function moveLeft(tile) {
-//   var tileIndex = tileArray.indexOf(tile);
-//   var emptyTileIndex = tileIndex - 1;
-//   var emptyTile = tileArray[emptyTileIndex];
-
-//   //  Move tile to the left.
-//   tile.style.transition = "transform 1.0s ease-in-out";
-//   tile.style.transform = "translateX(-" + `${tileHorizontalShiftAmt}` + "px)";
-//   console.log("shift amount: " + tileHorizontalShiftAmt);
-
-//   //  Move empty tile to the left.
-//   emptyTile.style.transition = "transform 1.0s ease-in-out";
-//   emptyTile.style.transform =
-//     "translateX(" + `${tileHorizontalShiftAmt}` + "px)";
-//   console.log("shift amount: " + tileHorizontalShiftAmt);
-
-//   var temp = emptyTile;
-//   tileArray[emptyTileIndex] = tile;
-//   tileArray[tileIndex] = temp;
-
-//   // Debugging
-//   console.log("tile number: " + tile.innerText);
-//   console.log("new index of tile: " + tileArray.indexOf(tile));
-//   if (tileArray[tileIndex].classList.contains("empty")) {
-//     console.log("new index of empty tile: " + tileIndex);
-//     console.log(tileArray[tileIndex]);
-//   }
-// }
-
+/* The moveUpAllowed checks if it's ok for a tile
+ * to move up. If so, it returns true. It returns false
+ * otherwise. The funciton utilized the calling tile's position in
+ * the tileArray and if the tile is adjacent to the empty tile in
+ * order to determine if it's ok for the tile to move up.
+ */
 function moveUpAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileAbove = tileIndex - 3;
@@ -316,6 +325,13 @@ function moveUpAllowed(tile) {
   return false;
 }
 
+/* The moveUp function moves(shifts) the tile up
+ * by swaping the xy-coordinates of the calling tile and the
+ * tile above (three indices lower). it uses an animation
+ * effect to make the switch more interesting. Finally, the
+ * tile and the tile above are swaped positions within
+ * the array.
+ */
 function moveUp(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var emptyTileIndex = tileIndex - 3;
@@ -331,7 +347,7 @@ function moveUp(tile) {
   tileArray[tileIndex].style.left = `${x_coordinate_emptyTile}` + "px";
   tileArray[tileIndex].style.top = `${y_coordinate_emptyTile}` + "px";
 
-  // Change emptyTile to tile coordinates
+  // Change emptyTile coordinates to tile coordinates
   tileArray[emptyTileIndex].style.left = `${x_coordinate_tile}` + "px";
   tileArray[emptyTileIndex].style.top = `${y_coordinate_tile}` + "px";
 
@@ -343,32 +359,12 @@ function moveUp(tile) {
   tileArray[tileIndex] = temp;
 }
 
-// function moveUp(tile) {
-//   var tileIndex = tileArray.indexOf(tile);
-//   var emptyTileIndex = tileIndex - 3;
-//   var emptyTile = tileArray[emptyTileIndex];
-
-//   //  Move tile Up.
-//   tile.style.transition = "transform 1.0s ease-in-out";
-//   tile.style.transform = "translateY(-" + `${tileVerticalShiftAmt}` + "px)";
-
-//   //  Move empty tile down.
-//   emptyTile.style.transition = "transform 1.0s ease-in-out";
-//   emptyTile.style.transform = "translateY(" + `${tileVerticalShiftAmt}` + "px)";
-
-//   var temp = emptyTile;
-//   tileArray[emptyTileIndex] = tile;
-//   tileArray[tileIndex] = temp;
-
-//   // Debugging
-//   console.log("tile number: " + tile.innerText);
-//   console.log("new index of tile: " + tileArray.indexOf(tile));
-//   if (tileArray[tileIndex].classList.contains("empty")) {
-//     console.log("new index of empty tile: " + tileIndex);
-//     console.log(tileArray[tileIndex]);
-//   }
-// }
-
+/* The winStatus function checks if the player has won the game.
+ * It does so by checking if the tiles positioned in the tileArray
+ * in accending order, with the empty tile position at the last
+ * position in the tileArray. If the tiles are in the correct order,
+ * then the function returns true. It returns false otherwise.
+ */
 function winStatus() {
   for (var i = 0; i < numTiles - 1; i++) {
     if (eval(tileArray[i].innerText + "- 1") != i) {
@@ -378,21 +374,36 @@ function winStatus() {
   return true;
 }
 
+/* The displayWinMessage function simply displays the win message if
+ * the player has won the game.
+ */
 function displayWinMessage() {
   document.body.getElementsByClassName("winMessage")[0].style.display =
     "initial";
 }
 
+/* The resetGame function resets the game by reloading the script page.
+ */
 function resetGame() {
   location.reload();
 }
 
+/* The testWinMessage function is a function used to test if the winning
+ * condition works. The function basically sets up a state in which the
+ * game can be won by simply moving just one tile.
+ */
 function testWinMessage() {
+  // Numerate tiles up to numTiles - 2.
   for (var i = 1; i < numTiles - 1; i++) {
     tileArray[i - 1].innerText = i;
   }
+
+  // Set the second to last tile as the empty tile.
   tileArray[numTiles - 2].classList.add("empty");
+
+  // Set the last tile as the number 8 tile.
   tileArray[numTiles - 1].innerText = numTiles - 1;
+
   if (winStatus()) {
     displayWinMessage();
   }
