@@ -365,3 +365,7 @@ function moveUp(tile) {
 //     console.log(tileArray[tileIndex]);
 //   }
 // }
+
+function resetGame() {
+  location.reload();
+}
