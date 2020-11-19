@@ -16,11 +16,17 @@ const containerWidth = 320; // Units are in pixels
 // Variable used to hold the height of the container div.
 const containerHeight = 320; // Units are in pixels
 
+// Variable used to hold the tile width.
+const tileWidth = 100; //Units are in pixels
+
+// Variable used to calculate number of columns.
+const numColumns = Math.floor(containerWidth / tileWidth);
+
 // Variable used to determine the lateral (horizontal) tile shift.
-const tileHorizontalShiftAmt = containerWidth / 3; // Units are in pixels
+const tileHorizontalShiftAmt = containerWidth / numColumns; // Units are in pixels
 
 // Varuable used to determine the vertical tile shift.
-const tileVerticalShiftAmt = containerHeight / 3; // Units are in pixels
+const tileVerticalShiftAmt = containerHeight / numColumns; // Units are in pixels
 
 /********************************************************************
  **********************    Start the Game    ************************
@@ -58,7 +64,7 @@ function setupCoordinates() {
   y_coordinate = 0;
 
   for (var i = 0; i < numTiles; i++) {
-    if (i != 0 && i % 3 == 0) {
+    if (i != 0 && i % numColumns == 0) {
       y_coordinate += tileVerticalShiftAmt;
       x_coordinate = 0;
     }
