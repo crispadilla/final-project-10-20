@@ -54,9 +54,9 @@ function setupGame() {
   setTileAttributes();
   assignTileNumbersRandomly();
 
-  /* The function below (testWinMessage()) is used to test the game
-   * win condition by setting up a game state almost
-   * complete.*/
+  // The function below (testWinMessage()) is used to test the game
+  // win condition by setting up a game state almost
+  // complete.
   // testWinMessage();
 }
 
