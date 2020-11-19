@@ -378,39 +378,31 @@ function moveTilesUsingArrowKeys(e) {
 
   var emptyTile = document.getElementsByClassName("empty")[0];
   var emptyTileIndex = tileArray.indexOf(emptyTile);
-  var tempTile;
+  var tileToBeMoved;
 
   switch (e.key) {
     case "ArrowUp":
       if (emptyTileIndex < 6) {
-        tempTile = tileArray[emptyTileIndex + 3];
-        if (moveUpAllowed(tempTile)) {
-          moveUp(tempTile);
-        }
+        tileToBeMoved = tileArray[emptyTileIndex + 3];
+        moveTile(tileToBeMoved);
       }
       break;
     case "ArrowDown":
       if (emptyTileIndex > 2) {
-        tempTile = tileArray[emptyTileIndex - 3];
-        if (moveDownAllowed(tempTile)) {
-          moveDown(tempTile);
-        }
+        tileToBeMoved = tileArray[emptyTileIndex - 3];
+        moveTile(tileToBeMoved);
       }
       break;
     case "ArrowLeft":
       if (emptyTileIndex >= 0) {
-        tempTile = tileArray[emptyTileIndex + 1];
-        if (moveLeftAllowed(tempTile)) {
-          moveLeft(tempTile);
-        }
+        tileToBeMoved = tileArray[emptyTileIndex + 1];
+        moveTile(tileToBeMoved);
       }
       break;
     case "ArrowRight":
       if (emptyTileIndex < numTiles) {
-        tempTile = tileArray[emptyTileIndex - 1];
-        if (moveRightAllowed(tempTile)) {
-          moveRight(tempTile);
-        }
+        tileToBeMoved = tileArray[emptyTileIndex - 1];
+        moveTile(tileToBeMoved);
       }
       break;
   }
