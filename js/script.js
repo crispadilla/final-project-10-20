@@ -43,6 +43,7 @@ setupGame();
  */
 function setupGame() {
   tileArray = Array.from(document.body.getElementsByClassName("tile"));
+  document.onkeydown = moveTilesUsingArrowKeys;
 
   setupCoordinates();
   positionTiles();
@@ -363,6 +364,56 @@ function moveUp(tile) {
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
+}
+
+/* The moveTilesUsingArrowKeys function moves the tiles using the arrow
+ * keys instead of clicking the mouse. The function does this by
+ * capturing the key being pressed and, using the index of the empty tile,
+ * the function then performs a series of function calls to the move
+ * functions to see if it's possible for a tile to move.
+ */
+function moveTilesUsingArrowKeys(e) {
+  e = e || window.event;
+  e.preventDefault();
+
+  var emptyTile = document.getElementsByClassName("empty")[0];
+  var emptyTileIndex = tileArray.indexOf(emptyTile);
+  var tempTile;
+
+  switch (e.key) {
+    case "ArrowUp":
+      if (emptyTileIndex < 6) {
+        tempTile = tileArray[emptyTileIndex + 3];
+        if (moveUpAllowed(tempTile)) {
+          moveUp(tempTile);
+        }
+      }
+      break;
+    case "ArrowDown":
+      if (emptyTileIndex > 2) {
+        tempTile = tileArray[emptyTileIndex - 3];
+        if (moveDownAllowed(tempTile)) {
+          moveDown(tempTile);
+        }
+      }
+      break;
+    case "ArrowLeft":
+      if (emptyTileIndex >= 0) {
+        tempTile = tileArray[emptyTileIndex + 1];
+        if (moveLeftAllowed(tempTile)) {
+          moveLeft(tempTile);
+        }
+      }
+      break;
+    case "ArrowRight":
+      if (emptyTileIndex < numTiles) {
+        tempTile = tileArray[emptyTileIndex - 1];
+        if (moveRightAllowed(tempTile)) {
+          moveRight(tempTile);
+        }
+      }
+      break;
+  }
 }
 
 /* The winStatus function checks if the player has won the game.
