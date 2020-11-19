@@ -7,6 +7,16 @@ body {
   background-color: black;
 }
 
+.winMessage {
+  position: absolute;
+  color: red;
+  font-family: "Bungee Outline", cursive;
+  font-size: 3em;
+  left: 50%;
+  transform: translate(-50%);
+  top: 20%;
+}
+
 img {
   position: absolute;
   width: 350px;

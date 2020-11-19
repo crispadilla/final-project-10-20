@@ -89,6 +89,7 @@ function moveTile(tile) {
     console.log("moveUp Called");
     moveUp(tile);
   }
+  console.log(winStatus());
 }
 
 function moveRightAllowed(tile) {
@@ -365,6 +366,15 @@ function moveUp(tile) {
 //     console.log(tileArray[tileIndex]);
 //   }
 // }
+
+function winStatus() {
+  for (var i = 0; i < numTiles; i++) {
+    if (tileArray[i].innerText != i) {
+      return false;
+    }
+  }
+  return true;
+}
 
 function resetGame() {
   location.reload();
