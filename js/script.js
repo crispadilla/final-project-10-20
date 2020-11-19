@@ -411,6 +411,9 @@ function moveTilesUsingArrowKeys(e) {
         moveTile(tileToBeMoved);
       }
       break;
+    case "Enter":
+      resetGame();
+      break;
   }
 }
 
