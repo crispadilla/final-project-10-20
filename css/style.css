@@ -8,6 +8,7 @@ body {
 }
 
 .winMessage {
+  display: none;
   position: absolute;
   color: red;
   font-family: "Bungee Outline", cursive;

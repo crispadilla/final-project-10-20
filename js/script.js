@@ -15,6 +15,7 @@ function setupGame() {
   positionTiles();
   setTileAttributes();
   assignTileNumbers();
+  // testWinMessage();
 }
 
 function setupCoordinates() {
@@ -89,6 +90,7 @@ function moveTile(tile) {
     console.log("moveUp Called");
     moveUp(tile);
   }
+  if (winStatus()) displayWinMessage();
   console.log(winStatus());
 }
 
@@ -368,14 +370,30 @@ function moveUp(tile) {
 // }
 
 function winStatus() {
-  for (var i = 0; i < numTiles; i++) {
-    if (tileArray[i].innerText != i) {
+  for (var i = 0; i < numTiles - 1; i++) {
+    if (eval(tileArray[i].innerText + "- 1") != i) {
       return false;
     }
   }
   return true;
 }
 
+function displayWinMessage() {
+  document.body.getElementsByClassName("winMessage")[0].style.display =
+    "initial";
+}
+
 function resetGame() {
   location.reload();
+}
+
+function testWinMessage() {
+  for (var i = 1; i < numTiles - 1; i++) {
+    tileArray[i - 1].innerText = i;
+  }
+  tileArray[numTiles - 2].classList.add("empty");
+  tileArray[numTiles - 1].innerText = numTiles - 1;
+  if (winStatus()) {
+    displayWinMessage();
+  }
 }
