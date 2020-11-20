@@ -514,6 +514,21 @@ function setBoardSize(size) {
       controls.style.top = "91%";
       break;
   }
-  console.log(backgroundImg);
-  console.log(tileGrid);
+  fadeInBoard();
+  fadeOutPuzzleSizeBtns();
+}
+
+function fadeInBoard() {
+  document.getElementsByClassName("controls")[0].style.display = "initial";
+  document.getElementsByClassName("tileGrid")[0].style.display = "initial";
+  document.getElementsByTagName("img")[0].style.display = "initial";
+}
+
+function fadeOutPuzzleSizeBtns() {
+  var sizeBtns = document.body.getElementsByClassName("puzzleSizeBtn");
+
+  for (var index = 0; index < sizeBtns.length; index++) {
+    sizeBtns[index].style.display = "none";
+  }
+  console.log(sizeBtns.length);
 }
