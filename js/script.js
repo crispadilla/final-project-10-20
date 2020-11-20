@@ -69,7 +69,6 @@ function createTiles() {
     tileArray[index] = newTile;
     tileGrid.appendChild(newTile);
   }
-  console.log(tileGrid);
 }
 
 /* The setupCoordinates function populates the elementCoordinateArray
@@ -90,9 +89,6 @@ function setupCoordinates() {
     elementCoordinatesArray[i] = [x_coordinate, y_coordinate];
     x_coordinate += tileHorizontalShiftAmt;
   }
-  console.log(tileHorizontalShiftAmt);
-  console.log(tileVerticalShiftAmt);
-  console.log(elementCoordinatesArray);
 }
 
 /* The assignTileNumbersRandomly function randomly assigns a value, numeric or class,
@@ -187,7 +183,6 @@ function moveRightAllowed(tile) {
     tileIndex != 8 &&
     tileArray[indexOfTileToTheRight].classList.contains("empty")
   ) {
-    console.log("Ok to move to the Right");
     return true;
   }
   return false;
@@ -240,7 +235,6 @@ function moveDownAllowed(tile) {
     tileIndex < 6 &&
     tileArray[indexOfTileUnderneath].classList.contains("empty")
   ) {
-    console.log("Ok to move to Down");
     return true;
   }
   return false;
@@ -295,7 +289,6 @@ function moveLeftAllowed(tile) {
     tileIndex != 6 &&
     tileArray[indexOfTileToTheLeft].classList.contains("empty")
   ) {
-    console.log("Ok to move to the Left");
     return true;
   }
   return false;
@@ -348,7 +341,6 @@ function moveUpAllowed(tile) {
     tileIndex > 2 &&
     tileArray[indexOfTileAbove].classList.contains("empty")
   ) {
-    console.log("Ok to move to Up");
     return true;
   }
   return false;
@@ -492,8 +484,36 @@ function puzzleSize(size) {
   containerHeight = size * tileWidth;
   tileHorizontalShiftAmt = containerWidth / numColumns; // Units are in pixels
   tileVerticalShiftAmt = containerHeight / numColumns; // Units are in pixels
-  console.log(size);
+
+  setBoardSize(size);
   setupGame();
 }
 
-function setTileSize() {}
+function setBoardSize(size) {
+  var backgroundImg = document.body.getElementsByTagName("img")[0];
+  var tileGrid = document.body.getElementsByClassName("tileGrid")[0];
+  var controls = document.getElementsByClassName("controls")[0];
+
+  switch (size) {
+    case 3:
+      backgroundImg.style.width = "450px";
+      backgroundImg.style.height = "450px";
+      tileGrid.style.width = "422px";
+      controls.style.top = "64%";
+      break;
+    case 4:
+      backgroundImg.style.width = "595px";
+      backgroundImg.style.height = "590px";
+      tileGrid.style.width = "563px";
+      controls.style.top = "77%";
+      break;
+    case 5:
+      backgroundImg.style.width = "735px";
+      backgroundImg.style.height = "735px";
+      tileGrid.style.width = "702px";
+      controls.style.top = "91%";
+      break;
+  }
+  console.log(backgroundImg);
+  console.log(tileGrid);
+}
