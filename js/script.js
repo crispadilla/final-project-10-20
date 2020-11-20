@@ -174,13 +174,29 @@ function moveTile(tile) {
  * the tileArray and if the tile is adjacent to the empty tile in
  * order to determine if it's ok for the tile to move right.
  */
+// function moveRightAllowed(tile) {
+//   var tileIndex = tileArray.indexOf(tile);
+//   var indexOfTileToTheRight = tileIndex + 1;
+//   if (
+//     tileIndex != 2 &&
+//     tileIndex != 5 &&
+//     tileIndex != 8 &&
+//     tileArray[indexOfTileToTheRight].classList.contains("empty")
+//   ) {
+//     return true;
+//   }
+//   return false;
+// }
+
 function moveRightAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileToTheRight = tileIndex + 1;
   if (
-    tileIndex != 2 &&
-    tileIndex != 5 &&
-    tileIndex != 8 &&
+    tileIndex != numColumns - 1 &&
+    tileIndex != numColumns * 2 - 1 &&
+    tileIndex != numColumns * 3 - 1 &&
+    tileIndex != numColumns * 4 - 1 &&
+    tileIndex != numColumns * 5 - 1 &&
     tileArray[indexOfTileToTheRight].classList.contains("empty")
   ) {
     return true;
@@ -230,9 +246,9 @@ function moveRight(tile) {
  */
 function moveDownAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
-  var indexOfTileUnderneath = tileIndex + 3;
+  var indexOfTileUnderneath = tileIndex + numColumns;
   if (
-    tileIndex < 6 &&
+    tileIndex < numColumns * (numColumns - 1) &&
     tileArray[indexOfTileUnderneath].classList.contains("empty")
   ) {
     return true;
@@ -249,7 +265,7 @@ function moveDownAllowed(tile) {
  */
 function moveDown(tile) {
   var tileIndex = tileArray.indexOf(tile);
-  var emptyTileIndex = tileIndex + 3;
+  var emptyTileIndex = tileIndex + numColumns;
   var emptyTile = tileArray[emptyTileIndex];
 
   x_coordinate_tile = elementCoordinatesArray[tileIndex][0];
@@ -284,9 +300,11 @@ function moveLeftAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileToTheLeft = tileIndex - 1;
   if (
-    tileIndex != 0 &&
-    tileIndex != 3 &&
-    tileIndex != 6 &&
+    tileIndex != numColumns * 0 &&
+    tileIndex != numColumns * 1 &&
+    tileIndex != numColumns * 2 &&
+    tileIndex != numColumns * 3 &&
+    tileIndex != numColumns * 4 &&
     tileArray[indexOfTileToTheLeft].classList.contains("empty")
   ) {
     return true;
@@ -336,9 +354,9 @@ function moveLeft(tile) {
  */
 function moveUpAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
-  var indexOfTileAbove = tileIndex - 3;
+  var indexOfTileAbove = tileIndex - numColumns;
   if (
-    tileIndex > 2 &&
+    tileIndex > numColumns - 1 &&
     tileArray[indexOfTileAbove].classList.contains("empty")
   ) {
     return true;
@@ -355,7 +373,7 @@ function moveUpAllowed(tile) {
  */
 function moveUp(tile) {
   var tileIndex = tileArray.indexOf(tile);
-  var emptyTileIndex = tileIndex - 3;
+  var emptyTileIndex = tileIndex - numColumns;
   var emptyTile = tileArray[emptyTileIndex];
 
   x_coordinate_tile = elementCoordinatesArray[tileIndex][0];
@@ -396,14 +414,14 @@ function moveTilesUsingArrowKeys(e) {
 
   switch (e.key) {
     case "ArrowUp":
-      if (emptyTileIndex < 6) {
-        tileToBeMoved = tileArray[emptyTileIndex + 3];
+      if (emptyTileIndex < numColumns * (numColumns - 1)) {
+        tileToBeMoved = tileArray[emptyTileIndex + numColumns];
         moveTile(tileToBeMoved);
       }
       break;
     case "ArrowDown":
-      if (emptyTileIndex > 2) {
-        tileToBeMoved = tileArray[emptyTileIndex - 3];
+      if (emptyTileIndex > numColumns - 1) {
+        tileToBeMoved = tileArray[emptyTileIndex - numColumns];
         moveTile(tileToBeMoved);
       }
       break;
