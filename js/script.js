@@ -8,7 +8,8 @@ var tileArray;
 var elementCoordinatesArray;
 
 // Variable used to hold the number of div tiles.
-const numTiles = document.body.getElementsByClassName("tile").length;
+// const numTiles = document.body.getElementsByClassName("tile").length;
+const numTiles = 9;
 
 // Variable used to hold the width of the container div.
 const containerWidth = 320; // Units are in pixels
@@ -42,13 +43,11 @@ setupGame();
  * empty tile.
  */
 function setupGame() {
-  // Fill tileArray with all divs containing 'tile' class
-  tileArray = Array.from(document.body.getElementsByClassName("tile"));
-
   // Map the arrow keys to the moveTilesUsingArrowKeys functions
   document.onkeydown = moveTilesUsingArrowKeys;
 
   // Set up the tiles
+  createTiles();
   setupCoordinates();
   positionTiles();
   setTileAttributes();
@@ -58,6 +57,20 @@ function setupGame() {
   // win condition by setting up a game state almost
   // complete.
   // testWinMessage();
+}
+
+/* The createTiles function creates the required tile divs and adds
+ * them to the gridTile div container.
+ */
+function createTiles() {
+  var tileGrid = document.body.getElementsByClassName("tileGrid")[0];
+  var newTile;
+  tileArray = Array(numTiles);
+  for (var index = 0; index < numTiles; index++) {
+    newTile = document.createElement("div");
+    tileArray[index] = newTile;
+    tileGrid.appendChild(newTile);
+  }
 }
 
 /* The setupCoordinates function populates the elementCoordinateArray
@@ -105,7 +118,7 @@ function assignTileNumbersRandomly() {
 
 /* The positionTiles function uses the coordinates stored in the
  * elementCoordinatesArray array to position each tile according
- * to it's xy-coordinate values.
+ * to its xy-coordinate values.
  */
 function positionTiles() {
   var x_coordinate;
@@ -127,6 +140,7 @@ function setTileAttributes() {
   tileArray.forEach((element) =>
     element.setAttribute("onclick", "moveTile(this)")
   );
+  tileArray.forEach((element) => element.classList.add("tile"));
 }
 
 /* The setupEmptyTile function is used to set any extra

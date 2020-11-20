@@ -22,21 +22,14 @@
   <body>
     <h1 class="name">Tile Puzzle</h1>
     <p class="winMessage">You Won!!!</p>
+    <button class="puzzleSizeBtn" id="threeByThree">3 x 3</button>
+    <button class="puzzleSizeBtn" id="fourByFour">4 x 4</button>
+    <button class="puzzleSizeBtn" id="fiveByFive">5 x 5</button>
     <img src="./background.eps" alt="" class="background" />
     <div class="container">
-      <div class="tileGrid">
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-        <div class="tile"></div>
-      </div>
+      <div class="tileGrid"></div>
       <div class="controls">
-        <button onclick="resetGame()">Reset</button>
+        <button onclick="resetGame()" class="resetBtn">Reset</button>
       </div>
     </div>
     <script src="js/script.js"></script>
