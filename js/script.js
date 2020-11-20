@@ -8,26 +8,24 @@ var tileArray;
 var elementCoordinatesArray;
 
 // Variable used to hold the number of div tiles.
-// const numTiles = document.body.getElementsByClassName("tile").length;
 var numTiles;
 
 // Variable used to hold the width of the container div.
-const containerWidth = 320; // Units are in pixels
-
+var containerWidth;
 // Variable used to hold the height of the container div.
-const containerHeight = 320; // Units are in pixels
-
-// Variable used to hold the tile width.
-const tileWidth = 100; //Units are in pixels
+var containerHeight;
 
 // Variable used to calculate number of columns.
-const numColumns = Math.floor(containerWidth / tileWidth);
+var numColumns;
 
 // Variable used to determine the lateral (horizontal) tile shift.
-const tileHorizontalShiftAmt = containerWidth / numColumns; // Units are in pixels
+var tileHorizontalShiftAmt; // Units are in pixels
 
 // Varuable used to determine the vertical tile shift.
-const tileVerticalShiftAmt = containerHeight / numColumns; // Units are in pixels
+var tileVerticalShiftAmt; // Units are in pixels
+
+// Variable used to hold the tile width.
+const tileWidth = 140; //Units are in pixels
 
 /********************************************************************
  **********************    Start the Game    ************************
@@ -71,6 +69,7 @@ function createTiles() {
     tileArray[index] = newTile;
     tileGrid.appendChild(newTile);
   }
+  console.log(tileGrid);
 }
 
 /* The setupCoordinates function populates the elementCoordinateArray
@@ -91,6 +90,9 @@ function setupCoordinates() {
     elementCoordinatesArray[i] = [x_coordinate, y_coordinate];
     x_coordinate += tileHorizontalShiftAmt;
   }
+  console.log(tileHorizontalShiftAmt);
+  console.log(tileVerticalShiftAmt);
+  console.log(elementCoordinatesArray);
 }
 
 /* The assignTileNumbersRandomly function randomly assigns a value, numeric or class,
@@ -482,7 +484,15 @@ function testWinMessage() {
 }
 
 function puzzleSize(size) {
+  tileArray = [];
+  document.body.getElementsByClassName("tileGrid")[0].innerHTML = "";
   numTiles = size * size;
+  numColumns = size;
+  containerWidth = size * tileWidth;
+  containerHeight = size * tileWidth;
+  tileHorizontalShiftAmt = containerWidth / numColumns; // Units are in pixels
+  tileVerticalShiftAmt = containerHeight / numColumns; // Units are in pixels
+  console.log(size);
   setupGame();
 }
 

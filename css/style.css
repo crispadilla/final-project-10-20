@@ -29,29 +29,30 @@ img {
 }
 
 img {
-  width: 350px;
-  height: 340px;
+  width: 490px;
+  height: 450px;
   top: 31.5%;
   border-radius: 10%;
 }
 
-.container {
-  position: relative;
-  width: 312px;
-  top: 312px;
-  left: 50%;
-  transform: translate(-50%);
-}
-
 .tileGrid {
-  height: 100%;
-  background-image: url("background.eps");
+  position: absolute;
+  /* max-width: 600px; */
+  /* min-width: 420px; */
+  width: 423px;
+  height: 50%;
+  left: 50%;
+  top: 33%;
+  transform: translate(-50%);
+  /* background-color: blue; */
   clear: both;
 }
 
 .controls {
   position: absolute;
-  top: 348px;
+  left: 50%;
+  transform: translate(-50%);
+  top: 91%;
   width: 100px;
   height: 20px;
 }
@@ -67,6 +68,7 @@ img {
   border-radius: 20%;
   background-color: black;
   color: red;
+  z-index: 1;
 }
 
 .puzzleSizeBtn {
@@ -88,10 +90,10 @@ img {
 
 .tile {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   text-align: center;
-  line-height: 100px;
+  line-height: 140px;
   font-family: "Bungee Outline", cursive;
   font-size: 6em;
   font-weight: 900;
