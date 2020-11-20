@@ -22,9 +22,15 @@
   <body>
     <h1 class="name">Tile Puzzle</h1>
     <p class="winMessage">You Won!!!</p>
-    <button class="puzzleSizeBtn" id="threeByThree">3 x 3</button>
-    <button class="puzzleSizeBtn" id="fourByFour">4 x 4</button>
-    <button class="puzzleSizeBtn" id="fiveByFive">5 x 5</button>
+    <button class="puzzleSizeBtn" id="threeByThree" onclick="puzzleSize(3)">
+      3 x 3
+    </button>
+    <button class="puzzleSizeBtn" id="fourByFour" onclick="puzzleSize(4)">
+      4 x 4
+    </button>
+    <button class="puzzleSizeBtn" id="fiveByFive" onclick="puzzleSize(5)">
+      5 x 5
+    </button>
     <img src="./background.eps" alt="" class="background" />
     <div class="container">
       <div class="tileGrid"></div>

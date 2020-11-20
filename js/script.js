@@ -9,7 +9,7 @@ var elementCoordinatesArray;
 
 // Variable used to hold the number of div tiles.
 // const numTiles = document.body.getElementsByClassName("tile").length;
-const numTiles = 9;
+var numTiles;
 
 // Variable used to hold the width of the container div.
 const containerWidth = 320; // Units are in pixels
@@ -32,7 +32,7 @@ const tileVerticalShiftAmt = containerHeight / numColumns; // Units are in pixel
 /********************************************************************
  **********************    Start the Game    ************************
  ********************************************************************/
-setupGame();
+// setupGame();
 
 /* The setupGame function is used to control the various stages of
  * setting up the game. First, it calls a function to set up the
@@ -480,3 +480,10 @@ function testWinMessage() {
     displayWinMessage();
   }
 }
+
+function puzzleSize(size) {
+  numTiles = size * size;
+  setupGame();
+}
+
+function setTileSize() {}
