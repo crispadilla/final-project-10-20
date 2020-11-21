@@ -548,5 +548,4 @@ function fadeOutPuzzleSizeBtns() {
   for (var index = 0; index < sizeBtns.length; index++) {
     sizeBtns[index].style.display = "none";
   }
-  console.log(sizeBtns.length);
 }
