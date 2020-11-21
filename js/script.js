@@ -30,8 +30,6 @@ const tileWidth = 140; //Units are in pixels
 /********************************************************************
  **********************    Start the Game    ************************
  ********************************************************************/
-// setupGame();
-
 /* The setupGame function is used to control the various stages of
  * setting up the game. First, it calls a function to set up the
  * coordinates for each div tile. Then it calls another function to
@@ -174,20 +172,6 @@ function moveTile(tile) {
  * the tileArray and if the tile is adjacent to the empty tile in
  * order to determine if it's ok for the tile to move right.
  */
-// function moveRightAllowed(tile) {
-//   var tileIndex = tileArray.indexOf(tile);
-//   var indexOfTileToTheRight = tileIndex + 1;
-//   if (
-//     tileIndex != 2 &&
-//     tileIndex != 5 &&
-//     tileIndex != 8 &&
-//     tileArray[indexOfTileToTheRight].classList.contains("empty")
-//   ) {
-//     return true;
-//   }
-//   return false;
-// }
-
 function moveRightAllowed(tile) {
   var tileIndex = tileArray.indexOf(tile);
   var indexOfTileToTheRight = tileIndex + 1;
@@ -233,6 +217,7 @@ function moveRight(tile) {
   // Animate the shift
   tileArray[tileIndex].style.transition = "left 1.0s ease-in-out";
 
+  // Swap tile and emptyTile places within the tileArray
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
@@ -285,6 +270,7 @@ function moveDown(tile) {
   // Animate the shift
   tileArray[tileIndex].style.transition = "top 1.0s ease-in-out";
 
+  // Swap tile and emptyTile places within the tileArray
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
@@ -341,6 +327,7 @@ function moveLeft(tile) {
   // Animate the shift
   tileArray[tileIndex].style.transition = "left 1.0s ease-in-out";
 
+  // Swap tile and emptyTile places within the tileArray
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
@@ -393,6 +380,7 @@ function moveUp(tile) {
   // Animate the shift
   tileArray[tileIndex].style.transition = "top 1.0s ease-in-out";
 
+  // Swap tile and emptyTile places within the tileArray
   var temp = emptyTile;
   tileArray[emptyTileIndex] = tile;
   tileArray[tileIndex] = temp;
@@ -493,6 +481,11 @@ function testWinMessage() {
   }
 }
 
+/* The puzzleSize function takes number value which represents the
+ * number of rows/columns for the board. It then sets the rest of the
+ * variables to the appropriate values. Finally, it calls the setBoardSize
+ * function and the setupGame function to get the game started.
+ */
 function puzzleSize(size) {
   tileArray = [];
   document.body.getElementsByClassName("tileGrid")[0].innerHTML = "";
@@ -507,6 +500,10 @@ function puzzleSize(size) {
   setupGame();
 }
 
+/* The setBoardSize function takes a number as an argument. The function uses
+ * the size value to determine the width and height of the board, as well
+ * as the board position.
+ */
 function setBoardSize(size) {
   var backgroundImg = document.body.getElementsByTagName("img")[0];
   var tileGrid = document.body.getElementsByClassName("tileGrid")[0];
@@ -537,15 +534,17 @@ function setBoardSize(size) {
 }
 
 function fadeInBoard() {
+  document.getElementsByClassName("controls")[0].style.animation = "fadeIn 6s";
+  document.getElementsByClassName("tileGrid")[0].style.animation = "fadeIn 6s";
+  document.getElementsByTagName("img")[0].style.animation = "fadeIn 6s";
+
   document.getElementsByClassName("controls")[0].style.display = "initial";
   document.getElementsByClassName("tileGrid")[0].style.display = "initial";
   document.getElementsByTagName("img")[0].style.display = "initial";
 }
 
 function fadeOutPuzzleSizeBtns() {
-  var sizeBtns = document.body.getElementsByClassName("puzzleSizeBtn");
-
-  for (var index = 0; index < sizeBtns.length; index++) {
-    sizeBtns[index].style.display = "none";
-  }
+  document.body.getElementsByClassName(
+    "puzzleSizeBtnContainer"
+  )[0].style.display = "none";
 }

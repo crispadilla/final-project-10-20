@@ -37,9 +37,6 @@ img {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
-  /* margin: 0 auto; */
-  /* left: 0; */
-  /* right: 0; */
   width: 450px;
   height: 450px;
   top: 13.5%;
@@ -55,8 +52,6 @@ img {
   width: 422px;
   height: 50%;
   top: 15%;
-  /* background-color: blue; */
-  /* clear: both; */
 }
 
 .controls {
@@ -83,21 +78,25 @@ img {
   z-index: 1;
 }
 
-.puzzleSizeBtn {
+.puzzleSizeBtnContainer {
   position: absolute;
-  top: 15%;
+  /* margin-bottom: 20px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 90%;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%);
 }
 
-#threeByThree {
-  left: 10%;
-}
-
-#fourByFour {
-  left: 40%;
-}
-
+#threeByThree,
+#fourByFour,
 #fiveByFive {
-  left: 70%;
+  margin: 40px;
+  width: 4em;
+  height: 6em;
+  font-size: 6.05em;
 }
 
 .tile {
@@ -118,4 +117,22 @@ img {
 .empty {
   background-color: black;
   opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
